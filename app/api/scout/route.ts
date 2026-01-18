@@ -22,7 +22,7 @@ export async function POST(request: Request) {
       .from('company_profiles')
       .select('id, company_name')
       .eq('owner_id', user.id)
-      .single()
+      .single<{ id: string; company_name: string }>()
 
     if (companyError || !companyProfile) {
       return NextResponse.json({ error: '企業プロフィールが見つかりません' }, { status: 400 })
@@ -33,7 +33,7 @@ export async function POST(request: Request) {
       .from('engineer_profiles')
       .select('owner_id')
       .eq('id', engineerProfileId)
-      .single()
+      .single<{ owner_id: string }>()
 
     if (engineerError || !engineerProfile) {
       return NextResponse.json({ error: 'エンジニアが見つかりません' }, { status: 404 })
@@ -46,7 +46,7 @@ export async function POST(request: Request) {
         .from('job_posts')
         .select('title')
         .eq('id', jobPostId)
-        .single()
+        .single<{ title: string }>()
       jobTitle = job?.title
     }
 
@@ -58,9 +58,9 @@ export async function POST(request: Request) {
         engineer_profile_id: engineerProfileId,
         job_post_id: jobPostId || null,
         message,
-      })
+      } as never)
       .select()
-      .single()
+      .single<{ id: string }>()
 
     if (scoutError) throw scoutError
 
@@ -70,7 +70,7 @@ export async function POST(request: Request) {
       .select('id')
       .eq('company_profile_id', companyProfile.id)
       .eq('engineer_profile_id', engineerProfileId)
-      .maybeSingle()
+      .maybeSingle() as { data: { id: string } | null }
 
     let conversationId = existingConvo?.id
 
@@ -81,9 +81,9 @@ export async function POST(request: Request) {
           company_profile_id: companyProfile.id,
           engineer_profile_id: engineerProfileId,
           job_post_id: jobPostId || null,
-        })
+        } as never)
         .select()
-        .single()
+        .single<{ id: string }>()
 
       if (convoError) throw convoError
       conversationId = newConvo.id
@@ -96,7 +96,7 @@ export async function POST(request: Request) {
         conversation_id: conversationId,
         sender_profile_id: user.id,
         body: `【スカウト】\n\n${message}`,
-      })
+      } as never)
 
     if (messageError) throw messageError
 
@@ -127,7 +127,7 @@ export async function GET(request: Request) {
       .from('company_profiles')
       .select('id')
       .eq('owner_id', user.id)
-      .single()
+      .single<{ id: string }>()
 
     if (!companyProfile) {
       return NextResponse.json({ error: '企業プロフィールが見つかりません' }, { status: 400 })

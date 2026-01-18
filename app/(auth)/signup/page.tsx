@@ -1,11 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Zap, Mail, Lock, User, ArrowRight, Loader2, Users, Building2, Check } from 'lucide-react'
 
-export default function SignupPage() {
+function SignupContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const defaultRole = searchParams.get('role') || 'engineer'
@@ -294,5 +294,17 @@ export default function SignupPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function SignupPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-midnight-900 flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-cyan-bright animate-spin" />
+      </div>
+    }>
+      <SignupContent />
+    </Suspense>
   )
 }

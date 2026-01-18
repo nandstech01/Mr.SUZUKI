@@ -25,6 +25,11 @@ export async function POST(request: Request) {
     }
 
     // Verify contract ownership
+    type ContractWithProfiles = {
+      id: string
+      company_profiles: { owner_id: string; company_name: string } | null
+      engineer_profiles: { profiles: { display_name: string } | null } | null
+    }
     const { data: contract } = await supabase
       .from('contracts')
       .select(`
@@ -40,7 +45,7 @@ export async function POST(request: Request) {
         )
       `)
       .eq('id', contract_id)
-      .single()
+      .single() as { data: ContractWithProfiles | null }
 
     if (!contract || contract.company_profiles?.owner_id !== user.id) {
       return NextResponse.json(
@@ -54,18 +59,18 @@ export async function POST(request: Request) {
       .from('stripe_customers')
       .select('stripe_customer_id')
       .eq('profile_id', user.id)
-      .single()
+      .single<{ stripe_customer_id: string }>()
 
     if (!stripeCustomer) {
       const { data: profile } = await supabase
         .from('profiles')
         .select('display_name, email')
         .eq('id', user.id)
-        .single()
+        .single<{ display_name: string | null; email: string | null }>()
 
       const customer = await stripe.customers.create({
-        email: profile?.email || user.email,
-        name: profile?.display_name,
+        email: profile?.email || user.email || undefined,
+        name: profile?.display_name || undefined,
         metadata: {
           supabase_user_id: user.id,
         },
@@ -76,7 +81,7 @@ export async function POST(request: Request) {
         .insert({
           profile_id: user.id,
           stripe_customer_id: customer.id,
-        })
+        } as never)
 
       stripeCustomer = { stripe_customer_id: customer.id }
     }
@@ -115,7 +120,7 @@ export async function POST(request: Request) {
         amount_yen,
         billing_month,
         status: 'pending',
-      })
+      } as never)
 
     return NextResponse.json({
       checkout_url: session.url,

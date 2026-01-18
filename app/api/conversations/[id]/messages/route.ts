@@ -1,6 +1,12 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 
+type ConversationWithParticipants = {
+  id: string
+  company_profiles: { owner_id: string } | null
+  engineer_profiles: { owner_id: string } | null
+}
+
 export async function GET(
   request: Request,
   { params }: { params: { id: string } }
@@ -29,7 +35,7 @@ export async function GET(
         )
       `)
       .eq('id', params.id)
-      .single()
+      .single<ConversationWithParticipants>()
 
     if (!conversation) {
       return NextResponse.json(
@@ -111,7 +117,7 @@ export async function POST(
         )
       `)
       .eq('id', params.id)
-      .single()
+      .single<ConversationWithParticipants>()
 
     if (!conversation) {
       return NextResponse.json(
@@ -137,7 +143,7 @@ export async function POST(
         conversation_id: params.id,
         sender_profile_id: user.id,
         body: messageBody.trim(),
-      })
+      } as never)
       .select(`
         *,
         profiles:sender_profile_id (

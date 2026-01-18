@@ -17,7 +17,7 @@ export async function GET() {
       .from('profiles')
       .select('role')
       .eq('id', user.id)
-      .single()
+      .single<{ role: string }>()
 
     if (!profile) {
       return NextResponse.json(
@@ -33,7 +33,7 @@ export async function GET() {
         .from('engineer_profiles')
         .select('id')
         .eq('owner_id', user.id)
-        .single()
+        .single<{ id: string }>()
 
       if (!engineerProfile) {
         return NextResponse.json([])
@@ -61,7 +61,7 @@ export async function GET() {
         .from('company_profiles')
         .select('id')
         .eq('owner_id', user.id)
-        .single()
+        .single<{ id: string }>()
 
       if (!companyProfile) {
         return NextResponse.json([])

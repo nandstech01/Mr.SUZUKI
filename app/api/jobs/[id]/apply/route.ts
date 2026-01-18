@@ -2,6 +2,23 @@ import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 import { calculateMatchScore } from '@/lib/utils/match-score'
 
+type EngineerWithSkills = {
+  id: string
+  desired_min_monthly_yen: number | null
+  remote_ok: boolean
+  availability_hours_per_week: number | null
+  engineer_skill_links: { skill_id: string; level: number }[]
+}
+
+type JobWithSkills = {
+  budget_min_monthly_yen: number | null
+  budget_max_monthly_yen: number | null
+  remote_ok: boolean
+  weekly_hours_min: number | null
+  weekly_hours_max: number | null
+  job_skill_links: { skill_id: string; weight: number }[]
+}
+
 export async function POST(
   request: Request,
   { params }: { params: { id: string } }
@@ -28,7 +45,7 @@ export async function POST(
         )
       `)
       .eq('owner_id', user.id)
-      .single()
+      .single<EngineerWithSkills>()
 
     if (!engineerProfile) {
       return NextResponse.json(
@@ -49,7 +66,7 @@ export async function POST(
       `)
       .eq('id', params.id)
       .eq('status', 'open')
-      .single()
+      .single<JobWithSkills>()
 
     if (!jobPost) {
       return NextResponse.json(
@@ -82,9 +99,9 @@ export async function POST(
         engineer_profile_id: engineerProfile.id,
         cover_letter,
         match_score: matchScore,
-      })
+      } as never)
       .select()
-      .single()
+      .single<{ id: string }>()
 
     if (error) {
       if (error.code === '23505') {

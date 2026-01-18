@@ -21,6 +21,14 @@ export async function POST(request: Request) {
     }
 
     // Get contract details
+    type ContractWithProfiles = {
+      id: string
+      status: string
+      company_profile_id: string
+      engineer_profile_id: string
+      company_profiles: { owner_id: string }
+      engineer_profiles: { owner_id: string }
+    }
     const { data: contract, error: contractError } = await supabase
       .from('contracts')
       .select(`
@@ -32,7 +40,7 @@ export async function POST(request: Request) {
         engineer_profiles!inner(owner_id)
       `)
       .eq('id', contractId)
-      .single()
+      .single<ContractWithProfiles>()
 
     if (contractError || !contract) {
       return NextResponse.json({ error: '契約が見つかりません' }, { status: 404 })
@@ -44,8 +52,8 @@ export async function POST(request: Request) {
     }
 
     // Determine reviewer and reviewee
-    const companyOwnerId = (contract.company_profiles as { owner_id: string }).owner_id
-    const engineerOwnerId = (contract.engineer_profiles as { owner_id: string }).owner_id
+    const companyOwnerId = contract.company_profiles.owner_id
+    const engineerOwnerId = contract.engineer_profiles.owner_id
 
     let revieweeProfileId: string
 
@@ -80,7 +88,7 @@ export async function POST(request: Request) {
         reviewee_profile_id: revieweeProfileId,
         rating,
         comment,
-      })
+      } as never)
       .select()
       .single()
 

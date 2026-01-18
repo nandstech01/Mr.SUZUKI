@@ -1,6 +1,21 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 
+type EngineerListItem = {
+  id: string
+  owner_id: string
+  headline: string | null
+  bio: string | null
+  years_of_experience: number | null
+  location: string | null
+  remote_ok: boolean
+  availability_hours_per_week: number | null
+  desired_engagement: string | null
+  desired_min_monthly_yen: number | null
+  profiles: { display_name: string }
+  engineer_skill_links: { level: number; skills: { name: string } }[]
+}
+
 export async function GET(request: Request) {
   const supabase = createClient()
   const { searchParams } = new URL(request.url)
@@ -55,13 +70,13 @@ export async function GET(request: Request) {
       query = query.eq('remote_ok', true)
     }
 
-    const { data: engineers, error } = await query.limit(50)
+    const { data: engineers, error } = await query.limit(50) as { data: EngineerListItem[] | null; error: Error | null }
 
     if (error) throw error
 
     // Format and filter by skills
     let formattedEngineers = engineers?.map((eng) => {
-      const skillLinks = eng.engineer_skill_links as { level: number; skills: { name: string } }[]
+      const skillLinks = eng.engineer_skill_links
       const engineerSkills = skillLinks?.map((link) => ({
         name: link.skills?.name || '',
         level: link.level,

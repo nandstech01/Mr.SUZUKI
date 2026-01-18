@@ -18,7 +18,7 @@ export async function POST(request: Request) {
       .from('company_profiles')
       .select('id')
       .eq('owner_id', user.id)
-      .single()
+      .single<{ id: string }>()
 
     if (!companyProfile) {
       return NextResponse.json(
@@ -68,9 +68,9 @@ export async function POST(request: Request) {
         budget_max_monthly_yen,
         must_have,
         nice_to_have,
-      })
+      } as never)
       .select()
-      .single()
+      .single<{ id: string }>()
 
     if (error) throw error
 
@@ -82,7 +82,7 @@ export async function POST(request: Request) {
         weight: skill.weight || 3,
       }))
 
-      await supabase.from('job_skill_links').insert(skillLinks)
+      await supabase.from('job_skill_links').insert(skillLinks as never)
     }
 
     return NextResponse.json(jobPost)

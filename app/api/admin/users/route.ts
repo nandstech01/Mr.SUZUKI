@@ -1,10 +1,11 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
+import { sanitizeSearchQuery } from '@/lib/utils/sanitize'
 
 export async function GET(request: Request) {
   const supabase = createClient()
   const { searchParams } = new URL(request.url)
-  const search = searchParams.get('search')
+  const search = sanitizeSearchQuery(searchParams.get('search'))
   const role = searchParams.get('role')
 
   // Check if user is admin
@@ -30,7 +31,7 @@ export async function GET(request: Request) {
       .order('created_at', { ascending: false })
 
     if (search) {
-      query = query.or(`display_name.ilike.%${search}%,email.ilike.%${search}%`)
+      query = query.or(`display_name.ilike.*${search}*,email.ilike.*${search}*`)
     }
 
     if (role) {

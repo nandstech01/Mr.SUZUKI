@@ -1,6 +1,24 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 
+type EngineerWithRelations = {
+  id: string
+  owner_id: string
+  headline: string | null
+  bio: string | null
+  years_of_experience: number | null
+  location: string | null
+  remote_ok: boolean
+  availability_hours_per_week: number | null
+  desired_engagement: string | null
+  desired_min_monthly_yen: number | null
+  github_url: string | null
+  linkedin_url: string | null
+  portfolio_url: string | null
+  profiles: { display_name: string }
+  engineer_skill_links: { level: number; years: number | null; skills: { name: string } }[]
+}
+
 export async function GET(
   request: Request,
   { params }: { params: { id: string } }
@@ -32,7 +50,7 @@ export async function GET(
         )
       `)
       .eq('id', params.id)
-      .single()
+      .single<EngineerWithRelations>()
 
     if (error) {
       if (error.code === 'PGRST116') {
@@ -45,7 +63,7 @@ export async function GET(
     const { data: reviews } = await supabase
       .from('reviews')
       .select('rating')
-      .eq('reviewee_profile_id', engineer.owner_id)
+      .eq('reviewee_profile_id', engineer.owner_id) as { data: { rating: number }[] | null }
 
     const avgRating = reviews && reviews.length > 0
       ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length

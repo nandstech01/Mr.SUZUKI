@@ -52,7 +52,7 @@ export function SkillExtractor({ onSkillsSelected }: SkillExtractorProps) {
 
       setExtractedSkills(data.skills)
       // Auto-select high confidence skills
-      const autoSelected = new Set(
+      const autoSelected = new Set<string>(
         data.skills.filter((s: ExtractedSkill) => s.confidence >= 0.7).map((s: ExtractedSkill) => s.name)
       )
       setSelectedSkills(autoSelected)
@@ -87,7 +87,7 @@ export function SkillExtractor({ onSkillsSelected }: SkillExtractorProps) {
       setExtractedSkills(data.skills)
       setSummary(data.summary || '')
       // Auto-select high confidence skills
-      const autoSelected = new Set(
+      const autoSelected = new Set<string>(
         data.skills.filter((s: ExtractedSkill) => s.confidence >= 0.7).map((s: ExtractedSkill) => s.name)
       )
       setSelectedSkills(autoSelected)

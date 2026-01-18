@@ -39,14 +39,14 @@ export async function POST(request: Request) {
         const contractId = session.metadata?.contract_id
         const billingMonth = session.metadata?.billing_month
 
-        if (contractId) {
+        if (contractId && billingMonth) {
           // Update invoice status
           await supabase
             .from('invoices')
             .update({
               status: 'paid',
               stripe_invoice_id: session.payment_intent as string,
-            })
+            } as never)
             .eq('contract_id', contractId)
             .eq('billing_month', billingMonth)
 
@@ -55,12 +55,12 @@ export async function POST(request: Request) {
             .from('contracts')
             .select('status')
             .eq('id', contractId)
-            .single()
+            .single<{ status: string }>()
 
           if (contract?.status === 'initiated') {
             await supabase
               .from('contracts')
-              .update({ status: 'active' })
+              .update({ status: 'active' } as never)
               .eq('id', contractId)
           }
         }
@@ -74,7 +74,7 @@ export async function POST(request: Request) {
         if (contractId) {
           await supabase
             .from('invoices')
-            .update({ status: 'failed' })
+            .update({ status: 'failed' } as never)
             .eq('contract_id', contractId)
             .eq('status', 'pending')
         }
@@ -87,7 +87,7 @@ export async function POST(request: Request) {
 
         await supabase
           .from('invoices')
-          .update({ status: 'paid' })
+          .update({ status: 'paid' } as never)
           .eq('stripe_invoice_id', stripeInvoiceId)
         break
       }
@@ -98,7 +98,7 @@ export async function POST(request: Request) {
 
         await supabase
           .from('invoices')
-          .update({ status: 'failed' })
+          .update({ status: 'failed' } as never)
           .eq('stripe_invoice_id', stripeInvoiceId)
         break
       }

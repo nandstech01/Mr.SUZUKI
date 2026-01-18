@@ -2,6 +2,22 @@ import { createClient } from '@/lib/supabase/server'
 import { calculateMatchScore } from '@/lib/utils/match-score'
 import { NextResponse } from 'next/server'
 
+type EngineerWithSkills = {
+  desired_min_monthly_yen: number | null
+  remote_ok: boolean
+  availability_hours_per_week: number | null
+  engineer_skill_links: { skill_id: string; level: number }[]
+}
+
+type JobWithSkills = {
+  budget_min_monthly_yen: number | null
+  budget_max_monthly_yen: number | null
+  remote_ok: boolean
+  weekly_hours_min: number | null
+  weekly_hours_max: number | null
+  job_skill_links: { skill_id: string; weight: number }[]
+}
+
 export async function POST(request: Request) {
   try {
     const supabase = createClient()
@@ -35,7 +51,7 @@ export async function POST(request: Request) {
         )
       `)
       .eq('id', job_id)
-      .single()
+      .single<JobWithSkills>()
 
     if (!jobPost) {
       return NextResponse.json(
@@ -55,7 +71,7 @@ export async function POST(request: Request) {
         )
       `)
       .eq('id', engineer_id)
-      .single()
+      .single<EngineerWithSkills>()
 
     if (!engineerProfile) {
       return NextResponse.json(
@@ -80,7 +96,7 @@ export async function POST(request: Request) {
     // Update application if exists
     await supabase
       .from('applications')
-      .update({ match_score: score })
+      .update({ match_score: score } as never)
       .eq('job_post_id', job_id)
       .eq('engineer_profile_id', engineer_id)
 

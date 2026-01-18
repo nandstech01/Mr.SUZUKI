@@ -15,11 +15,12 @@ export async function GET() {
     }
 
     // Get profile with role-specific data
+    type Profile = { id: string; role: string; display_name: string; email: string | null; avatar_url: string | null }
     const { data: profile, error: profileError } = await supabase
       .from('profiles')
       .select('*')
       .eq('id', user.id)
-      .single()
+      .single<Profile>()
 
     if (profileError || !profile) {
       return NextResponse.json(

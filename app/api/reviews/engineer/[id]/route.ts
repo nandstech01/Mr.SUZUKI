@@ -13,13 +13,21 @@ export async function GET(
       .from('engineer_profiles')
       .select('owner_id')
       .eq('id', params.id)
-      .single()
+      .single<{ owner_id: string }>()
 
     if (profileError || !engineerProfile) {
       return NextResponse.json({ error: 'エンジニアが見つかりません' }, { status: 404 })
     }
 
     // Get reviews
+    type ReviewResult = {
+      id: string
+      rating: number
+      comment: string | null
+      created_at: string
+      reviewer: { display_name: string } | null
+      contracts: { company_profiles: { company_name: string } }
+    }
     const { data: reviews, error: reviewsError } = await supabase
       .from('reviews')
       .select(`
@@ -36,7 +44,7 @@ export async function GET(
         )
       `)
       .eq('reviewee_profile_id', engineerProfile.owner_id)
-      .order('created_at', { ascending: false })
+      .order('created_at', { ascending: false }) as { data: ReviewResult[] | null; error: Error | null }
 
     if (reviewsError) throw reviewsError
 

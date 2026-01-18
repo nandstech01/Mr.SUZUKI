@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
+import { sanitizeSearchQuery } from '@/lib/utils/sanitize'
 
 export async function GET(request: Request) {
   try {
@@ -11,7 +12,7 @@ export async function GET(request: Request) {
     const budgetMin = searchParams.get('budget_min')
     const budgetMax = searchParams.get('budget_max')
     const skillIds = searchParams.get('skills')?.split(',').filter(Boolean)
-    const query = searchParams.get('q')
+    const query = sanitizeSearchQuery(searchParams.get('q'))
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '20')
     const offset = (page - 1) * limit
@@ -57,10 +58,14 @@ export async function GET(request: Request) {
     }
 
     if (query) {
-      dbQuery = dbQuery.or(`title.ilike.%${query}%,description.ilike.%${query}%`)
+      dbQuery = dbQuery.or(`title.ilike.*${query}*,description.ilike.*${query}*`)
     }
 
-    const { data, error, count } = await dbQuery
+    type JobWithSkillLinks = {
+      job_skill_links?: { skill_id: string }[]
+      [key: string]: unknown
+    }
+    const { data, error, count } = await dbQuery as { data: JobWithSkillLinks[] | null; error: Error | null; count: number | null }
 
     if (error) throw error
 
@@ -68,7 +73,7 @@ export async function GET(request: Request) {
     let filteredData = data
     if (skillIds && skillIds.length > 0) {
       filteredData = data?.filter((job) =>
-        job.job_skill_links?.some((link: { skill_id: string }) =>
+        job.job_skill_links?.some((link) =>
           skillIds.includes(link.skill_id)
         )
       ) || []

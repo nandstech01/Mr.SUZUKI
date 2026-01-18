@@ -70,7 +70,7 @@ export async function PATCH(
       .from('company_profiles')
       .select('id')
       .eq('owner_id', user.id)
-      .single()
+      .single<{ id: string }>()
 
     if (!companyProfile) {
       return NextResponse.json(
@@ -111,7 +111,7 @@ export async function PATCH(
         budget_max_monthly_yen,
         must_have,
         nice_to_have,
-      })
+      } as never)
       .eq('id', params.id)
       .eq('company_profile_id', companyProfile.id)
       .select()
@@ -133,7 +133,7 @@ export async function PATCH(
           weight: skill.weight || 3,
         }))
 
-        await supabase.from('job_skill_links').insert(skillLinks)
+        await supabase.from('job_skill_links').insert(skillLinks as never)
       }
     }
 

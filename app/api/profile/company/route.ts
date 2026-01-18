@@ -47,7 +47,7 @@ export async function POST(request: Request) {
           industry,
           company_size,
           description,
-        })
+        } as never)
         .eq('owner_id', user.id)
         .select()
         .single()
@@ -65,7 +65,7 @@ export async function POST(request: Request) {
           industry,
           company_size,
           description,
-        })
+        } as never)
         .select()
         .single()
 

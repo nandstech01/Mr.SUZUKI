@@ -20,7 +20,7 @@ export async function POST(
       .from('company_profiles')
       .select('id')
       .eq('owner_id', user.id)
-      .single()
+      .single<{ id: string }>()
 
     if (!companyProfile) {
       return NextResponse.json(
@@ -31,7 +31,7 @@ export async function POST(
 
     const { data, error } = await supabase
       .from('job_posts')
-      .update({ status: 'open' })
+      .update({ status: 'open' } as never)
       .eq('id', params.id)
       .eq('company_profile_id', companyProfile.id)
       .select()

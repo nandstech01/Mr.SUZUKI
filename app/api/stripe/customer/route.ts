@@ -19,7 +19,7 @@ export async function POST() {
       .from('stripe_customers')
       .select('stripe_customer_id')
       .eq('profile_id', user.id)
-      .single()
+      .single<{ stripe_customer_id: string }>()
 
     if (existingCustomer) {
       return NextResponse.json({
@@ -32,12 +32,12 @@ export async function POST() {
       .from('profiles')
       .select('display_name, email')
       .eq('id', user.id)
-      .single()
+      .single<{ display_name: string | null; email: string | null }>()
 
     // Create Stripe customer
     const customer = await stripe.customers.create({
-      email: profile?.email || user.email,
-      name: profile?.display_name,
+      email: profile?.email || user.email || undefined,
+      name: profile?.display_name || undefined,
       metadata: {
         supabase_user_id: user.id,
       },
@@ -49,7 +49,7 @@ export async function POST() {
       .insert({
         profile_id: user.id,
         stripe_customer_id: customer.id,
-      })
+      } as never)
 
     if (error) throw error
 

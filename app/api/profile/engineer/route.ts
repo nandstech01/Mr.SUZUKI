@@ -36,7 +36,7 @@ export async function POST(request: Request) {
       .eq('owner_id', user.id)
       .single()
 
-    let engineerProfile
+    let engineerProfile: { id: string } | null = null
     if (existing) {
       // Update
       const { data, error } = await supabase
@@ -53,10 +53,10 @@ export async function POST(request: Request) {
           github_url,
           linkedin_url,
           portfolio_url,
-        })
+        } as never)
         .eq('owner_id', user.id)
         .select()
-        .single()
+        .single<{ id: string }>()
 
       if (error) throw error
       engineerProfile = data
@@ -77,16 +77,16 @@ export async function POST(request: Request) {
           github_url,
           linkedin_url,
           portfolio_url,
-        })
+        } as never)
         .select()
-        .single()
+        .single<{ id: string }>()
 
       if (error) throw error
       engineerProfile = data
     }
 
     // Update skills if provided
-    if (skills && Array.isArray(skills)) {
+    if (skills && Array.isArray(skills) && engineerProfile) {
       // Delete existing skill links
       await supabase
         .from('engineer_skill_links')
@@ -96,13 +96,13 @@ export async function POST(request: Request) {
       // Insert new skill links
       if (skills.length > 0) {
         const skillLinks = skills.map((skill: { skill_id: string; level: number; years?: number }) => ({
-          engineer_profile_id: engineerProfile.id,
+          engineer_profile_id: engineerProfile!.id,
           skill_id: skill.skill_id,
           level: skill.level,
           years: skill.years,
         }))
 
-        await supabase.from('engineer_skill_links').insert(skillLinks)
+        await supabase.from('engineer_skill_links').insert(skillLinks as never)
       }
     }
 

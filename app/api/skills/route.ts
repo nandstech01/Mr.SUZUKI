@@ -44,7 +44,7 @@ export async function POST(request: Request) {
       .from('profiles')
       .select('role')
       .eq('id', user.id)
-      .single()
+      .single<{ role: string }>()
 
     if (profile?.role !== 'admin') {
       return NextResponse.json(
@@ -65,7 +65,7 @@ export async function POST(request: Request) {
 
     const { data, error } = await supabase
       .from('skills')
-      .insert({ name, category })
+      .insert({ name, category } as never)
       .select()
       .single()
 

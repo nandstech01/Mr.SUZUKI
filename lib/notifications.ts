@@ -24,7 +24,7 @@ export async function createNotification({
     title,
     body,
     link,
-  })
+  } as never)
 
   if (error) {
     console.error('Failed to create notification:', error)
