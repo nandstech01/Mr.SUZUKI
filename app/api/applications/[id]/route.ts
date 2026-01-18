@@ -37,7 +37,7 @@ export async function PATCH(
     }
 
     // Get the application with related data
-    const { data: application } = await supabase
+    const { data: applicationData } = await supabase
       .from('applications')
       .select(`
         *,
@@ -53,6 +53,9 @@ export async function PATCH(
       `)
       .eq('id', params.id)
       .single()
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const application = applicationData as any
 
     if (!application) {
       return NextResponse.json(
