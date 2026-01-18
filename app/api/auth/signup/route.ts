@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { NextResponse } from 'next/server'
 
 export async function POST(request: Request) {
@@ -19,16 +19,16 @@ export async function POST(request: Request) {
       )
     }
 
-    const supabase = createClient()
+    // Use admin client to bypass email validation and auto-confirm
+    const supabase = createAdminClient()
 
-    const { data: authData, error: authError } = await supabase.auth.signUp({
+    const { data: authData, error: authError } = await supabase.auth.admin.createUser({
       email,
       password,
-      options: {
-        data: {
-          display_name: displayName,
-          role,
-        },
+      email_confirm: true, // Auto-confirm email
+      user_metadata: {
+        display_name: displayName,
+        role,
       },
     })
 
@@ -39,24 +39,9 @@ export async function POST(request: Request) {
       )
     }
 
-    if (authData.user) {
-      // Create profile
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .insert({
-          id: authData.user.id,
-          role,
-          display_name: displayName,
-          email,
-        })
-
-      if (profileError) {
-        console.error('Profile creation error:', profileError)
-      }
-    }
-
+    // Profile is automatically created by database trigger
     return NextResponse.json({
-      message: '登録が完了しました。メールを確認してください。',
+      message: '登録が完了しました。ログインしてください。',
       user: authData.user,
     })
   } catch (error) {

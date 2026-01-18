@@ -12,6 +12,8 @@ export type JobStatus = 'draft' | 'open' | 'paused' | 'closed'
 export type ApplicationStatus = 'applied' | 'screening' | 'interview' | 'offer' | 'accepted' | 'rejected' | 'withdrawn'
 export type ContractStatus = 'initiated' | 'signed' | 'active' | 'completed' | 'cancelled'
 export type InvoiceStatus = 'pending' | 'paid' | 'void' | 'failed'
+export type NotificationType = 'application' | 'message' | 'contract' | 'system' | 'scout'
+export type ScoutStatus = 'sent' | 'viewed' | 'replied' | 'declined'
 
 export interface Database {
   public: {
@@ -440,6 +442,99 @@ export interface Database {
           id?: string
           key?: string
           weight?: number
+          updated_at?: string
+        }
+      }
+      notifications: {
+        Row: {
+          id: string
+          profile_id: string
+          type: NotificationType
+          title: string
+          body: string | null
+          link: string | null
+          is_read: boolean
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          profile_id: string
+          type: NotificationType
+          title: string
+          body?: string | null
+          link?: string | null
+          is_read?: boolean
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          profile_id?: string
+          type?: NotificationType
+          title?: string
+          body?: string | null
+          link?: string | null
+          is_read?: boolean
+          created_at?: string
+        }
+      }
+      reviews: {
+        Row: {
+          id: string
+          contract_id: string
+          reviewer_profile_id: string
+          reviewee_profile_id: string
+          rating: number
+          comment: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          contract_id: string
+          reviewer_profile_id: string
+          reviewee_profile_id: string
+          rating: number
+          comment?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          contract_id?: string
+          reviewer_profile_id?: string
+          reviewee_profile_id?: string
+          rating?: number
+          comment?: string | null
+          created_at?: string
+        }
+      }
+      scouts: {
+        Row: {
+          id: string
+          company_profile_id: string
+          engineer_profile_id: string
+          job_post_id: string | null
+          message: string
+          status: ScoutStatus
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          company_profile_id: string
+          engineer_profile_id: string
+          job_post_id?: string | null
+          message: string
+          status?: ScoutStatus
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          company_profile_id?: string
+          engineer_profile_id?: string
+          job_post_id?: string | null
+          message?: string
+          status?: ScoutStatus
+          created_at?: string
           updated_at?: string
         }
       }

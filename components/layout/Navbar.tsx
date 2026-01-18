@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
-import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,6 +11,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { NotificationBell } from '@/components/notifications/NotificationBell'
+import { Zap, LogOut, User, LayoutDashboard, Menu, X } from 'lucide-react'
 import type { ProfileWithDetails } from '@/types'
 
 interface NavbarProps {
@@ -23,6 +24,7 @@ export function Navbar({ variant = 'default' }: NavbarProps) {
   const pathname = usePathname()
   const [profile, setProfile] = useState<ProfileWithDetails | null>(null)
   const [loading, setLoading] = useState(true)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -57,6 +59,7 @@ export function Navbar({ variant = 'default' }: NavbarProps) {
 
   const companyLinks = [
     { href: '/company/dashboard', label: 'ダッシュボード' },
+    { href: '/company/engineers', label: 'エンジニア検索' },
     { href: '/company/jobs', label: '案件管理' },
     { href: '/company/applications', label: '応募者一覧' },
     { href: '/company/messages', label: 'メッセージ' },
@@ -66,80 +69,134 @@ export function Navbar({ variant = 'default' }: NavbarProps) {
 
   const links = variant === 'engineer' ? engineerLinks : variant === 'company' ? companyLinks : []
 
+  const isActive = (href: string) => pathname === href || pathname.startsWith(href + '/')
+
   return (
-    <header className="border-b bg-white sticky top-0 z-50">
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <div className="flex items-center gap-8">
-          <Link href="/" className="text-xl font-bold text-blue-600">
-            AIMatch Pro
-          </Link>
-          {!loading && profile && links.length > 0 && (
-            <nav className="hidden md:flex items-center gap-6">
+    <header className="sticky top-0 z-50 bg-midnight-900/95 backdrop-blur-xl border-b border-midnight-700/50">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="h-16 flex items-center justify-between">
+          {/* Logo */}
+          <div className="flex items-center gap-8">
+            <Link href="/" className="flex items-center gap-2.5 group">
+              <div className="w-9 h-9 rounded-lg bg-cyan-gradient flex items-center justify-center shadow-glow-sm group-hover:shadow-glow transition-shadow duration-300">
+                <Zap className="w-4.5 h-4.5 text-midnight-900" />
+              </div>
+              <span className="text-xl font-display font-bold text-white tracking-tight">
+                AIMatch <span className="text-cyan-bright">Pro</span>
+              </span>
+            </Link>
+
+            {/* Desktop Navigation */}
+            {!loading && profile && links.length > 0 && (
+              <nav className="hidden lg:flex items-center gap-1">
+                {links.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                      isActive(link.href)
+                        ? 'bg-cyan-glow/10 text-cyan-bright'
+                        : 'text-midnight-300 hover:text-white hover:bg-midnight-800/50'
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </nav>
+            )}
+          </div>
+
+          {/* Right Side */}
+          <div className="flex items-center gap-3">
+            {loading ? (
+              <div className="w-9 h-9 bg-midnight-700 rounded-full animate-pulse" />
+            ) : profile ? (
+              <>
+                <NotificationBell />
+
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="relative h-9 w-9 rounded-full ring-2 ring-midnight-600 hover:ring-cyan-glow/50 transition-all duration-200">
+                      <Avatar className="h-9 w-9">
+                        <AvatarImage src={profile.avatar_url || undefined} alt={profile.display_name} />
+                        <AvatarFallback className="bg-gradient-to-br from-cyan-glow to-cyan-bright text-midnight-900 font-semibold text-sm">
+                          {profile.display_name.slice(0, 2).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56 bg-midnight-800 border-midnight-600 text-white">
+                    <div className="px-3 py-2">
+                      <p className="text-sm font-medium text-white">{profile.display_name}</p>
+                      <p className="text-xs text-midnight-400">{profile.email}</p>
+                    </div>
+                    <DropdownMenuSeparator className="bg-midnight-600" />
+                    <DropdownMenuItem asChild className="hover:bg-midnight-700 focus:bg-midnight-700 cursor-pointer">
+                      <Link href={profile.role === 'engineer' ? '/engineer/profile' : '/company/profile'} className="flex items-center gap-2">
+                        <User className="w-4 h-4 text-midnight-400" />
+                        <span>プロフィール</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild className="hover:bg-midnight-700 focus:bg-midnight-700 cursor-pointer">
+                      <Link href={profile.role === 'engineer' ? '/engineer/dashboard' : '/company/dashboard'} className="flex items-center gap-2">
+                        <LayoutDashboard className="w-4 h-4 text-midnight-400" />
+                        <span>ダッシュボード</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator className="bg-midnight-600" />
+                    <DropdownMenuItem onClick={handleLogout} className="hover:bg-red-500/10 focus:bg-red-500/10 text-red-400 cursor-pointer">
+                      <LogOut className="w-4 h-4 mr-2" />
+                      <span>ログアウト</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+
+                {/* Mobile Menu Button */}
+                <button
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  className="lg:hidden p-2 text-midnight-300 hover:text-white transition-colors"
+                >
+                  {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                </button>
+              </>
+            ) : (
+              <div className="flex items-center gap-3">
+                <Link href="/login">
+                  <button className="px-4 py-2 text-sm text-midnight-200 hover:text-white font-medium transition-colors">
+                    ログイン
+                  </button>
+                </Link>
+                <Link href="/signup">
+                  <button className="btn-premium px-5 py-2 text-sm">
+                    <span>新規登録</span>
+                  </button>
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Mobile Navigation */}
+        {mobileMenuOpen && profile && links.length > 0 && (
+          <nav className="lg:hidden py-4 border-t border-midnight-700/50">
+            <div className="flex flex-col gap-1">
               {links.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`text-sm transition-colors ${
-                    pathname === link.href || pathname.startsWith(link.href + '/')
-                      ? 'text-blue-600 font-medium'
-                      : 'text-slate-600 hover:text-slate-900'
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
+                    isActive(link.href)
+                      ? 'bg-cyan-glow/10 text-cyan-bright'
+                      : 'text-midnight-300 hover:text-white hover:bg-midnight-800/50'
                   }`}
                 >
                   {link.label}
                 </Link>
               ))}
-            </nav>
-          )}
-        </div>
-
-        <div className="flex items-center gap-4">
-          {loading ? (
-            <div className="w-8 h-8 bg-slate-200 rounded-full animate-pulse" />
-          ) : profile ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-                  <Avatar className="h-10 w-10">
-                    <AvatarImage src={profile.avatar_url || undefined} alt={profile.display_name} />
-                    <AvatarFallback>
-                      {profile.display_name.slice(0, 2).toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
-                <div className="px-2 py-1.5">
-                  <p className="text-sm font-medium">{profile.display_name}</p>
-                  <p className="text-xs text-muted-foreground">{profile.email}</p>
-                </div>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href={profile.role === 'engineer' ? '/engineer/profile' : '/company/profile'}>
-                    プロフィール
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href={profile.role === 'engineer' ? '/engineer/dashboard' : '/company/dashboard'}>
-                    ダッシュボード
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleLogout} className="text-red-600">
-                  ログアウト
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-            <>
-              <Link href="/login">
-                <Button variant="ghost">ログイン</Button>
-              </Link>
-              <Link href="/signup">
-                <Button>新規登録</Button>
-              </Link>
-            </>
-          )}
-        </div>
+            </div>
+          </nav>
+        )}
       </div>
     </header>
   )

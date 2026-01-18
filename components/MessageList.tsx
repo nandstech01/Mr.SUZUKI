@@ -20,7 +20,7 @@ export function MessageList() {
       <div className="flex flex-col items-center justify-center h-[calc(100vh-180px)] text-center p-8">
         <h2 className="text-2xl font-bold mb-2">Welcome to Mr. SUZUKI</h2>
         <p className="text-muted-foreground max-w-md">
-          Ask me anything, and I'll do my best to help you.
+          Ask me anything, and I&apos;ll do my best to help you.
         </p>
       </div>
     );

@@ -17,7 +17,7 @@ export async function GET() {
       .from('profiles')
       .select('role')
       .eq('id', user.id)
-      .single()
+      .single<{ role: string }>()
 
     if (!profile) {
       return NextResponse.json(
@@ -33,7 +33,7 @@ export async function GET() {
         .from('engineer_profiles')
         .select('id')
         .eq('owner_id', user.id)
-        .single()
+        .single<{ id: string }>()
 
       if (!engineerProfile) {
         return NextResponse.json([])
@@ -62,7 +62,7 @@ export async function GET() {
         .from('company_profiles')
         .select('id')
         .eq('owner_id', user.id)
-        .single()
+        .single<{ id: string }>()
 
       if (!companyProfile) {
         return NextResponse.json([])
@@ -130,7 +130,17 @@ export async function POST(request: Request) {
     }
 
     // Get application and verify ownership
-    const { data: application } = await supabase
+    type AppResult = {
+      data: {
+        status: string
+        job_posts?: {
+          company_profile_id: string
+          company_profiles?: { id: string; owner_id: string }
+        }
+        engineer_profiles?: { id: string }
+      } | null
+    }
+    const appResult = await supabase
       .from('applications')
       .select(`
         *,
@@ -146,7 +156,8 @@ export async function POST(request: Request) {
         )
       `)
       .eq('id', application_id)
-      .single()
+      .single() as unknown as AppResult
+    const application = appResult.data
 
     if (!application) {
       return NextResponse.json(
@@ -183,7 +194,8 @@ export async function POST(request: Request) {
       )
     }
 
-    const { data, error } = await supabase
+    type InsertResult = { data: unknown; error: { message: string } | null }
+    const insertResult = await supabase
       .from('contracts')
       .insert({
         application_id,
@@ -193,13 +205,13 @@ export async function POST(request: Request) {
         end_date,
         monthly_fee_yen,
         status: 'initiated',
-      })
+      } as never)
       .select()
-      .single()
+      .single() as unknown as InsertResult
 
-    if (error) throw error
+    if (insertResult.error) throw insertResult.error
 
-    return NextResponse.json(data)
+    return NextResponse.json(insertResult.data)
   } catch (error) {
     console.error('Create contract error:', error)
     return NextResponse.json(

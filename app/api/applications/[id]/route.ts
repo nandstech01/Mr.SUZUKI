@@ -37,7 +37,13 @@ export async function PATCH(
     }
 
     // Get the application with related data
-    const { data: application } = await supabase
+    type ApplicationResult = {
+      data: {
+        job_posts?: { company_profile_id: string; company_profiles?: { owner_id: string } }
+        engineer_profiles?: { owner_id: string }
+      } | null
+    }
+    const result = await supabase
       .from('applications')
       .select(`
         *,
@@ -52,14 +58,15 @@ export async function PATCH(
         )
       `)
       .eq('id', params.id)
-      .single()
+      .single() as unknown as ApplicationResult
 
-    if (!application) {
+    if (!result.data) {
       return NextResponse.json(
         { error: '応募が見つかりません' },
         { status: 404 }
       )
     }
+    const application = result.data
 
     // Check permissions
     const isCompany = application.job_posts?.company_profiles?.owner_id === user.id
@@ -88,16 +95,17 @@ export async function PATCH(
       )
     }
 
-    const { data, error } = await supabase
+    type UpdateResult = { data: unknown; error: { message: string } | null }
+    const updateResult = await supabase
       .from('applications')
-      .update({ status })
+      .update({ status } as never)
       .eq('id', params.id)
       .select()
-      .single()
+      .single() as unknown as UpdateResult
 
-    if (error) throw error
+    if (updateResult.error) throw updateResult.error
 
-    return NextResponse.json(data)
+    return NextResponse.json(updateResult.data)
   } catch (error) {
     console.error('Update application error:', error)
     return NextResponse.json(
