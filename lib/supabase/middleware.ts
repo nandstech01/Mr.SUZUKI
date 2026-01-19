@@ -57,9 +57,18 @@ export async function updateSession(request: NextRequest) {
   }
 
   // ログイン済みユーザーが認証ページにアクセスした場合
+  // ロールに応じて適切なダッシュボードにリダイレクト
   if (user && (request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/signup')) {
     const url = request.nextUrl.clone()
-    url.pathname = '/onboarding'
+    // user_metadataからロールを取得（サインアップ時に設定されている場合）
+    const role = user.user_metadata?.role || 'engineer'
+    if (role === 'admin') {
+      url.pathname = '/admin/dashboard'
+    } else if (role === 'company') {
+      url.pathname = '/company/dashboard'
+    } else {
+      url.pathname = '/engineer/dashboard'
+    }
     return NextResponse.redirect(url)
   }
 

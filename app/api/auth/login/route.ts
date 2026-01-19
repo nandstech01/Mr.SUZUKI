@@ -26,10 +26,18 @@ export async function POST(request: Request) {
       )
     }
 
+    // プロファイルからロールを取得
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', data.user.id)
+      .single()
+
     return NextResponse.json({
       message: 'ログインしました',
       user: data.user,
       session: data.session,
+      role: profile?.role || 'engineer',
     })
   } catch (error) {
     console.error('Login error:', error)

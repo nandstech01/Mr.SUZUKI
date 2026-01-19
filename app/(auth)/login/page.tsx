@@ -33,7 +33,16 @@ function LoginContent() {
         throw new Error(data.error || 'ログインに失敗しました')
       }
 
-      router.push('/onboarding')
+      // ロールに応じてリダイレクト先を決定
+      const role = data.role || 'engineer'
+      let redirectPath = '/engineer/dashboard'
+      if (role === 'admin') {
+        redirectPath = '/admin/dashboard'
+      } else if (role === 'company') {
+        redirectPath = '/company/dashboard'
+      }
+
+      router.push(redirectPath)
       router.refresh()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'エラーが発生しました')
