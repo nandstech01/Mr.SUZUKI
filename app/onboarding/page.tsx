@@ -31,7 +31,9 @@ export default function OnboardingPage() {
         setProfile(data)
 
         // If profile already complete, redirect to dashboard
-        if (data.role === 'engineer' && data.engineer_profile) {
+        if (data.role === 'admin') {
+          router.push('/admin/dashboard')
+        } else if (data.role === 'engineer' && data.engineer_profile) {
           router.push('/engineer/dashboard')
         } else if (data.role === 'company' && data.company_profile) {
           router.push('/company/dashboard')
@@ -62,7 +64,9 @@ export default function OnboardingPage() {
   }
 
   const handleContinue = () => {
-    if (profile.role === 'engineer') {
+    if (profile.role === 'admin') {
+      router.push('/admin/dashboard')
+    } else if (profile.role === 'engineer') {
       router.push('/engineer/profile')
     } else {
       router.push('/company/profile')
