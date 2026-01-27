@@ -32,7 +32,7 @@ export default function HomePage() {
                 <Zap className="w-4.5 h-4.5 text-white" strokeWidth={2.5} />
               </div>
               <span className="text-xl font-semibold text-white tracking-[-0.02em]">
-                AIMatch<span className="text-cyan-400">Pro</span>
+                Career<span className="text-cyan-400">Bridge</span>
               </span>
             </Link>
 
@@ -89,11 +89,11 @@ export default function HomePage() {
               className="text-center opacity-0 animate-[fadeIn_0.8s_ease-out_0.2s_forwards]"
             >
               <span className="block text-[clamp(2.5rem,6vw,4.5rem)] font-semibold text-white leading-[1.1] tracking-[-0.03em] mb-2">
-                AIエンジニアと企業を
+                全国50万件の求人から
               </span>
               <span className="block text-[clamp(2.5rem,6vw,4.5rem)] font-semibold leading-[1.1] tracking-[-0.03em]">
                 <span className="bg-gradient-to-r from-cyan-300 via-cyan-400 to-blue-400 bg-clip-text text-transparent">
-                  高精度マッチング
+                  あなたにぴったりの仕事を
                 </span>
               </span>
             </h1>
@@ -102,9 +102,9 @@ export default function HomePage() {
             <p
               className="text-center text-[17px] md:text-[19px] text-white/40 mt-8 mb-14 max-w-2xl mx-auto leading-[1.7] tracking-[-0.01em] opacity-0 animate-[fadeIn_0.8s_ease-out_0.35s_forwards]"
             >
-              副業・フリーランス・正社員。
+              正社員・契約社員・派遣・アルバイト。
               <br className="hidden sm:block" />
-              契約から支払いまで、すべてをワンプラットフォームで。
+              多彩な職種・勤務地から、希望の求人が見つかる。
             </p>
 
             {/* CTA Buttons - Premium Feel */}
@@ -112,7 +112,7 @@ export default function HomePage() {
               className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 mb-16 opacity-0 animate-[fadeIn_0.8s_ease-out_0.5s_forwards]"
             >
               <Link
-                href="/signup?role=engineer"
+                href="/signup"
                 className="group relative inline-flex items-center justify-center gap-2.5 px-7 py-3.5 text-[15px] font-medium text-white overflow-hidden rounded-xl transition-all duration-300"
               >
                 {/* Button gradient background */}
@@ -121,15 +121,15 @@ export default function HomePage() {
                 {/* Subtle shine effect */}
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
                 <Users className="relative w-4.5 h-4.5" strokeWidth={2} />
-                <span className="relative">エンジニアとして登録</span>
+                <span className="relative">無料で求人を探す</span>
                 <ArrowRight className="relative w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-200" strokeWidth={2} />
               </Link>
               <Link
-                href="/signup?role=company"
+                href="/login"
                 className="group inline-flex items-center justify-center gap-2.5 px-7 py-3.5 text-[15px] font-medium text-white/80 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] hover:border-white/[0.12] rounded-xl transition-all duration-300"
               >
                 <Building2 className="w-4.5 h-4.5" strokeWidth={2} />
-                <span>企業として登録</span>
+                <span>ログインして続ける</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-200" strokeWidth={2} />
               </Link>
             </div>
@@ -294,7 +294,7 @@ export default function HomePage() {
                 <Zap className="w-3.5 h-3.5 text-white" strokeWidth={2.5} />
               </div>
               <span className="text-[15px] font-semibold text-white tracking-[-0.01em]">
-                AIMatch<span className="text-cyan-400">Pro</span>
+                Career<span className="text-cyan-400">Bridge</span>
               </span>
             </div>
 
@@ -316,7 +316,7 @@ export default function HomePage() {
 
             {/* Copyright */}
             <p className="text-[13px] text-white/30">
-              &copy; 2024 AIMatch Pro
+              &copy; 2024 CareerBridge
             </p>
           </div>
         </div>

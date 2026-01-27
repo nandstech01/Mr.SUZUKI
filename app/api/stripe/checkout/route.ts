@@ -95,7 +95,7 @@ export async function POST(request: Request) {
           price_data: {
             currency: 'jpy',
             product_data: {
-              name: `AIMatch Pro - 契約支払い`,
+              name: `CareerBridge - 契約支払い`,
               description: `${contract.engineer_profiles?.profiles?.display_name || 'エンジニア'}との契約 - ${billing_month || '当月分'}`,
             },
             unit_amount: amount_yen,

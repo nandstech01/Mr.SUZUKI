@@ -1,4 +1,4 @@
--- AIMatch Pro RLS Policies
+-- CareerBridge RLS Policies
 -- Row Level Security for all tables
 
 -- Enable RLS on all tables

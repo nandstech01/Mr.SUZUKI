@@ -1,4 +1,4 @@
--- AIMatch Pro Seed Data: Skills
+-- CareerBridge Seed Data: Skills
 -- Initial skills for AI/ML engineers
 
 -- Programming Languages

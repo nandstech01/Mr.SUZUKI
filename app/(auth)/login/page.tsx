@@ -67,7 +67,7 @@ function LoginContent() {
             <Zap className="w-6 h-6 text-midnight-900" />
           </div>
           <span className="text-3xl font-display font-bold text-white tracking-tight">
-            AIMatch <span className="gradient-text-cyan">Pro</span>
+            Career<span className="gradient-text-cyan">Bridge</span>
           </span>
         </Link>
 
@@ -78,13 +78,13 @@ function LoginContent() {
             <span className="gradient-text">キャリアを加速</span>
           </h1>
           <p className="text-midnight-300 text-lg leading-relaxed">
-            AIMatch Proは、AIエンジニアと企業を高精度でマッチング。
-            副業・フリーランス・正社員、あなたに合った働き方を見つけましょう。
+            CareerBridgeは、求職者と企業を高精度でマッチング。
+            あなたに合った働き方を見つけましょう。
           </p>
         </div>
 
         <div className="text-midnight-400 text-sm">
-          &copy; 2024 AIMatch Pro. All rights reserved.
+          &copy; 2024 CareerBridge. All rights reserved.
         </div>
       </div>
 
@@ -97,7 +97,7 @@ function LoginContent() {
               <Zap className="w-5 h-5 text-midnight-900" />
             </div>
             <span className="text-2xl font-display font-bold text-white tracking-tight">
-              AIMatch <span className="gradient-text-cyan">Pro</span>
+              Career<span className="gradient-text-cyan">Bridge</span>
             </span>
           </Link>
 

@@ -1,4 +1,4 @@
--- AIMatch Pro Database Schema
+-- CareerBridge Database Schema
 -- Migration 003: Notifications and Reviews
 
 -- Notification type enum

@@ -93,7 +93,7 @@ export function Navbar({ variant = 'default' }: NavbarProps) {
                 <Zap className="w-4.5 h-4.5 text-midnight-900" />
               </div>
               <span className="text-xl font-display font-bold text-white tracking-tight">
-                AIMatch <span className="text-cyan-bright">Pro</span>
+                Career<span className="text-cyan-bright">Bridge</span>
               </span>
             </Link>
 

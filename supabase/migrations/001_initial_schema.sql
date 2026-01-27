@@ -1,4 +1,4 @@
--- AIMatch Pro Database Schema
+-- CareerBridge Database Schema
 -- Initial Migration
 
 -- Extensions

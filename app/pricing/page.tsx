@@ -25,7 +25,7 @@ export default function PricingPage() {
                 </div>
               </div>
               <span className="text-2xl font-display font-bold text-white tracking-tight">
-                AIMatch <span className="gradient-text-cyan">Pro</span>
+                Career<span className="gradient-text-cyan">Bridge</span>
               </span>
             </Link>
             <div className="flex items-center gap-4">
@@ -274,7 +274,7 @@ export default function PricingPage() {
               <div className="w-8 h-8 rounded-lg bg-cyan-gradient flex items-center justify-center">
                 <Zap className="w-4 h-4 text-midnight-900" />
               </div>
-              <span className="font-display font-bold text-white">AIMatch Pro</span>
+              <span className="font-display font-bold text-white">CareerBridge</span>
             </div>
             <div className="flex flex-wrap justify-center gap-8">
               <Link href="/pricing" className="text-cyan-bright font-medium">
@@ -288,7 +288,7 @@ export default function PricingPage() {
               </Link>
             </div>
             <p className="text-midnight-400 text-sm">
-              &copy; 2024 AIMatch Pro. All rights reserved.
+              &copy; 2024 CareerBridge. All rights reserved.
             </p>
           </div>
         </div>

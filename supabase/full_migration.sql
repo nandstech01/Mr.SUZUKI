@@ -1,4 +1,4 @@
--- AIMatch Pro Database Schema
+-- CareerBridge Database Schema
 -- Initial Migration
 
 -- Extensions
@@ -269,7 +269,7 @@ do $$ begin
   create trigger trg_invoices_updated_at
   before update on invoices for each row execute function set_updated_at();
 exception when duplicate_object then null; end $$;
--- AIMatch Pro RLS Policies
+-- CareerBridge RLS Policies
 -- Row Level Security for all tables
 
 -- Enable RLS on all tables
@@ -552,7 +552,7 @@ create policy "Admins can manage match weights"
       where id = auth.uid() and role = 'admin'
     )
   );
--- AIMatch Pro Seed Data: Skills
+-- CareerBridge Seed Data: Skills
 -- Initial skills for AI/ML engineers
 
 -- Programming Languages
