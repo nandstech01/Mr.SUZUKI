@@ -83,12 +83,19 @@ const config: Config = {
           '800': 'hsl(222 47% 8%)',
           '900': 'hsl(222 47% 5%)',
         },
-        // Cyan Accent
+        // Cyan Accent - ロゴカラー (#3CC8E8)
         cyan: {
-          glow: 'hsl(190 100% 50%)',
-          bright: 'hsl(190 95% 60%)',
-          soft: 'hsl(190 80% 70%)',
-          muted: 'hsl(190 40% 80%)',
+          glow: '#40D0F0',
+          bright: '#3CC8E8',
+          soft: '#5DD4F0',
+          muted: '#8DE4F8',
+        },
+        // Brand Cyan for Tailwind classes
+        brand: {
+          cyan: '#3CC8E8',
+          'cyan-light': '#5DD4F0',
+          'cyan-dark': '#2BB8D8',
+          'cyan-glow': '#40D0F0',
         },
         // Gold Accent
         gold: {
@@ -161,6 +168,15 @@ const config: Config = {
           from: { opacity: '0', transform: 'translateY(8px)' },
           to: { opacity: '1', transform: 'translateY(0)' },
         },
+        // 軽量フロートアニメーション
+        'float-slow': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-15px)' },
+        },
+        'float-slow-reverse': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(15px)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -178,6 +194,9 @@ const config: Config = {
         'skeleton': 'skeleton-shimmer 1.5s ease-in-out infinite',
         'subtle-bounce': 'subtle-bounce 2s ease-in-out infinite',
         'fade-subtle': 'fade-in-subtle 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        // 軽量フロートアニメーション
+        'float-slow': 'float-slow 6s ease-in-out infinite',
+        'float-slow-reverse': 'float-slow-reverse 7s ease-in-out infinite',
       },
       boxShadow: {
         'glow-sm': '0 0 10px rgba(0, 212, 255, 0.2)',

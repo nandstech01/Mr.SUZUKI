@@ -28,11 +28,11 @@
   --midnight-200: 222 35% 85%;
   --midnight-100: 222 40% 95%;
 
-  /* Accent - Electric Cyan */
-  --cyan-glow: 190 100% 50%;
-  --cyan-bright: 190 95% 60%;
-  --cyan-soft: 190 80% 70%;
-  --cyan-muted: 190 40% 80%;
+  /* Accent - Brand Cyan (#3CC8E8) */
+  --cyan-glow: 192 85% 60%;
+  --cyan-bright: 192 78% 57%;
+  --cyan-soft: 192 85% 65%;
+  --cyan-muted: 192 80% 75%;
 
   /* Secondary Accent - Warm Gold */
   --gold-bright: 43 96% 70%;
@@ -46,7 +46,7 @@
 
   /* Glass Effect Variables */
   --glass-bg: rgba(13, 21, 38, 0.7);
-  --glass-border: rgba(0, 212, 255, 0.15);
+  --glass-border: rgba(60, 200, 232, 0.15);
   --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 
   /* Font Family */
@@ -176,7 +176,7 @@
 
   /* Glow Effects */
   .glow-cyan {
-    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3), 0 0 40px rgba(0, 212, 255, 0.1);
+    box-shadow: 0 0 20px rgba(60, 200, 232, 0.3), 0 0 40px rgba(60, 200, 232, 0.1);
   }
 
   .glow-gold {
@@ -184,7 +184,7 @@
   }
 
   .text-glow-cyan {
-    text-shadow: 0 0 20px rgba(0, 212, 255, 0.5), 0 0 40px rgba(0, 212, 255, 0.3);
+    text-shadow: 0 0 20px rgba(60, 200, 232, 0.5), 0 0 40px rgba(60, 200, 232, 0.3);
   }
 
   /* Animated Gradient Border */
@@ -226,7 +226,7 @@
 
   .btn-premium:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 40px rgba(0, 212, 255, 0.4);
+    box-shadow: 0 10px 40px rgba(60, 200, 232, 0.4);
   }
 
   .btn-premium span {
@@ -244,7 +244,7 @@
     background: hsl(var(--cyan-glow) / 0.1);
     border-color: hsl(var(--cyan-glow));
     transform: translateY(-2px);
-    box-shadow: 0 10px 40px rgba(0, 212, 255, 0.2);
+    box-shadow: 0 10px 40px rgba(60, 200, 232, 0.2);
   }
 
   /* Feature Card */
@@ -257,7 +257,7 @@
   .feature-card:hover {
     transform: translateY(-8px);
     border-color: hsl(var(--cyan-glow) / 0.3);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(0, 212, 255, 0.1);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(60, 200, 232, 0.1);
   }
 
   .feature-card::before {
@@ -411,7 +411,7 @@
 
   /* Minimal Glow - Reduced Intensity */
   .glow-minimal {
-    box-shadow: 0 0 15px rgba(0, 212, 255, 0.15);
+    box-shadow: 0 0 15px rgba(60, 200, 232, 0.15);
   }
 
   /* Fade In on Enter */
@@ -668,3 +668,109 @@
 .animate-fade-subtle { animation: fade-in-subtle 0.3s var(--ease-out-expo) forwards; }
 .animate-slide-up { animation: slide-in-from-bottom 0.3s var(--ease-out-expo) forwards; }
 .animate-count-up { animation: count-up 0.6s var(--ease-out-expo) forwards; }
+
+/* Hero Float Animations - Smooth & Premium */
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes float-slow-reverse {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(12px);
+  }
+}
+
+@keyframes float-delayed {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes ping-slow {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes pulse-dot {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 currentColor;
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px 4px currentColor;
+  }
+}
+
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+.animate-float-slow-reverse {
+  animation: float-slow-reverse 7s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float-delayed 5s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+.animate-ping-slow {
+  animation: ping-slow 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+.animate-pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+/* Animation delays */
+.animation-delay-100 { animation-delay: 100ms; }
+.animation-delay-200 { animation-delay: 200ms; }
+.animation-delay-300 { animation-delay: 300ms; }
+.animation-delay-400 { animation-delay: 400ms; }
+.animation-delay-500 { animation-delay: 500ms; }

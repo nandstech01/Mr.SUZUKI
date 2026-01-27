@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useRouter, usePathname } from 'next/navigation'
 import {
   DropdownMenu,
@@ -88,13 +89,15 @@ export function Navbar({ variant = 'default' }: NavbarProps) {
         <div className="h-16 flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-8">
-            <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="w-9 h-9 rounded-lg bg-cyan-gradient flex items-center justify-center shadow-glow-sm group-hover:shadow-glow transition-shadow duration-300">
-                <Zap className="w-4.5 h-4.5 text-midnight-900" />
-              </div>
-              <span className="text-xl font-display font-bold text-white tracking-tight">
-                Career<span className="text-cyan-bright">Bridge</span>
-              </span>
+            <Link href="/" className="flex items-center hover:opacity-90 transition-opacity">
+              <Image
+                src="/logo.png"
+                alt="キャリアブリッジ"
+                width={200}
+                height={44}
+                className="h-11 w-auto"
+                priority
+              />
             </Link>
 
             {/* Desktop Navigation */}
