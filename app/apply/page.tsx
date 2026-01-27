@@ -69,19 +69,23 @@ export default function ApplyPage() {
     setError('')
 
     try {
-      // GAS APIが設定されている場合は送信
+      // GAS APIが設定されている場合は送信（GETパラメータ方式）
       if (GAS_API_URL) {
-        const response = await fetch(GAS_API_URL, {
-          method: 'POST',
+        const params = new URLSearchParams({
+          name: formData.name,
+          age: formData.age,
+          gender: formData.gender,
+          prefecture: formData.prefecture,
+          canRelocate: String(formData.canRelocate),
+          hasResume: String(formData.hasResume),
+          jobTemperature: formData.jobTemperature.join(', '),
+          lineId: formData.lineId,
+        })
+
+        // GETリクエストで送信（CORS回避）
+        await fetch(`${GAS_API_URL}?${params.toString()}`, {
+          method: 'GET',
           mode: 'no-cors',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            ...formData,
-            jobTemperature: formData.jobTemperature.join(', '),
-            timestamp: new Date().toISOString(),
-          }),
         })
         // no-corsモードではレスポンスを読めないので、成功とみなす
       }
