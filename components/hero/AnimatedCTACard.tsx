@@ -17,17 +17,14 @@ const AnimatedCTACard = memo(function AnimatedCTACard() {
         <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
           <Link
             href="/apply"
-            className="w-full sm:w-auto bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-8 py-4 rounded-lg font-bold shadow-lg hover:shadow-[0_0_20px_rgba(34,197,94,0.4)] transition-all flex flex-col items-center justify-center gap-1 group text-lg"
+            className="w-full sm:w-auto bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-8 py-3 rounded-lg font-bold shadow-lg hover:shadow-[0_0_20px_rgba(34,197,94,0.4)] transition-all flex items-center justify-center gap-2 group"
           >
-            <span className="flex items-center gap-2">
-              <MessageCircle className="w-6 h-6 group-hover:scale-110 transition-transform" />
-              かんたんLINE応募
-            </span>
-            <span className="text-xs font-normal opacity-90">最短10秒で完了</span>
+            <MessageCircle className="w-5 h-5 group-hover:scale-110 transition-transform" />
+            かんたんLINE応募
           </Link>
           <Link
             href="/login"
-            className="w-full sm:w-auto bg-transparent border border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-white px-6 py-3 rounded-lg font-bold transition-all flex items-center justify-center gap-2"
+            className="w-full sm:w-auto bg-transparent border border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-white px-8 py-3 rounded-lg font-bold transition-all flex items-center justify-center gap-2"
           >
             <LogIn className="w-5 h-5" />
             ログイン
