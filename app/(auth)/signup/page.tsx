@@ -69,19 +69,19 @@ function SignupContent() {
           <h1 className="font-display text-4xl font-bold text-white mb-6 leading-tight">
             今すぐ始めて、
             <br />
-            <span className="gradient-text">理想の出会いを</span>
+            <span className="gradient-text">理想の仕事を見つけよう</span>
           </h1>
           <p className="text-midnight-300 text-lg leading-relaxed mb-8">
-            CareerBridgeは、AIエンジニアと企業を高精度でマッチング。
-            契約から支払いまで、すべてをワンプラットフォームで。
+            CareerBridgeは、全国50万件以上の求人からあなたにぴったりの仕事をマッチング。
+            職種・勤務地・給与など、希望条件で簡単検索。
           </p>
 
           {/* Benefits */}
           <div className="space-y-4">
             {[
-              'AI支援によるスキル抽出',
-              '高精度マッチスコア',
-              '安心の決済システム',
+              '全国50万件以上の求人',
+              '希望条件で簡単検索',
+              '無料で何件でも応募可能',
             ].map((benefit, index) => (
               <div key={index} className="flex items-center gap-3">
                 <div className="w-6 h-6 rounded-full bg-cyan-glow/20 flex items-center justify-center">
