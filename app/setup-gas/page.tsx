@@ -10,7 +10,7 @@ const GAS_CODE = `/**
  */
 
 // スプレッドシートID（URLから取得）
-const SPREADSHEET_ID = '1V7jd_6SrBn5LdJTOs43KWZOhwR2GptTnVYtSyfHuwdA';
+const SPREADSHEET_ID = '1RnW0OmIUm49OkmgBx23Jx6X5o77lQ7wieXSfoZ4A1Uk';
 const SHEET_NAME = 'Sheet1';
 
 /**
@@ -133,7 +133,7 @@ export default function SetupGasPage() {
               スプレッドシートを開く
             </h2>
             <a
-              href="https://docs.google.com/spreadsheets/d/1V7jd_6SrBn5LdJTOs43KWZOhwR2GptTnVYtSyfHuwdA/edit"
+              href="https://docs.google.com/spreadsheets/d/1RnW0OmIUm49OkmgBx23Jx6X5o77lQ7wieXSfoZ4A1Uk/edit"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 transition-colors"

@@ -3,7 +3,7 @@
  * Google Apps Script
  *
  * 使い方:
- * 1. スプレッドシート（https://docs.google.com/spreadsheets/d/1V7jd_6SrBn5LdJTOs43KWZOhwR2GptTnVYtSyfHuwdA/edit）を開く
+ * 1. スプレッドシート（https://docs.google.com/spreadsheets/d/1RnW0OmIUm49OkmgBx23Jx6X5o77lQ7wieXSfoZ4A1Uk/edit）を開く
  * 2. 拡張機能 → Apps Script をクリック
  * 3. このコードを Code.gs にコピー
  * 4. デプロイ → 新しいデプロイ → ウェブアプリ
@@ -13,7 +13,7 @@
  */
 
 // スプレッドシートID（URLから取得）
-const SPREADSHEET_ID = '1V7jd_6SrBn5LdJTOs43KWZOhwR2GptTnVYtSyfHuwdA';
+const SPREADSHEET_ID = '1RnW0OmIUm49OkmgBx23Jx6X5o77lQ7wieXSfoZ4A1Uk';
 const SHEET_NAME = 'Sheet1'; // シート名（必要に応じて変更）
 
 /**
