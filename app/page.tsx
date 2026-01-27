@@ -32,7 +32,7 @@ export default function HomePage() {
                 <Zap className="w-4.5 h-4.5 text-white" strokeWidth={2.5} />
               </div>
               <span className="text-xl font-semibold text-white tracking-[-0.02em]">
-                AIMatch<span className="text-cyan-400">Pro</span>
+                Career<span className="text-cyan-400">Bridge</span>
               </span>
             </Link>
 
@@ -294,7 +294,7 @@ export default function HomePage() {
                 <Zap className="w-3.5 h-3.5 text-white" strokeWidth={2.5} />
               </div>
               <span className="text-[15px] font-semibold text-white tracking-[-0.01em]">
-                AIMatch<span className="text-cyan-400">Pro</span>
+                Career<span className="text-cyan-400">Bridge</span>
               </span>
             </div>
 
@@ -316,7 +316,7 @@ export default function HomePage() {
 
             {/* Copyright */}
             <p className="text-[13px] text-white/30">
-              &copy; 2024 AIMatch Pro
+              &copy; 2024 CareerBridge
             </p>
           </div>
         </div>

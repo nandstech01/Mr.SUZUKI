@@ -41,7 +41,7 @@ export async function POST(request: Request) {
       {
         headers: {
           'Accept': 'application/vnd.github.v3+json',
-          'User-Agent': 'AIMatch-Pro',
+          'User-Agent': 'CareerBridge',
         },
       }
     )
