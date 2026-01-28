@@ -25,7 +25,7 @@ const JOB_TEMPERATURES = [
 const GAS_API_URL = process.env.NEXT_PUBLIC_GAS_API_URL || ''
 
 // LINE友達追加URL
-const LINE_ADD_URL = 'https://lin.ee/u55ERBk'
+const LINE_ADD_URL = 'https://lin.ee/B7yynyF'
 
 export default function ApplyPage() {
   const [formData, setFormData] = useState({
